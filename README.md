@@ -155,4 +155,118 @@ Status at End of Week 3
   - Clean one-row-per-miRNA structure
   - QC completed
 
-## Week 4 - Regression modelling
+## Week 4 — Baseline Modeling and Regularization
+
+### Objective
+Evaluate whether intrinsic miRNA sequence features explain variation in predicted repression strength (TargetScan context++ score), and assess model stability using cross-validation and regularization.
+
+Planned tasks:
+
+  1. Final dataset QC & finalize modeling subset
+  2. Exploratory statistics (relationships between features & labels)
+  3. Define regression task formally
+  4. Train baseline linear regression
+  5. Evaluate performance (R², MSE)
+  6. Interpret coefficients
+
+NOTE: QC showed that features for specially included hsa-miR-325-3p was missing. Features for hsa-miR-325-3p were manually reconstructed from literature-supported mature sequence.
+
+---
+
+### Dataset
+
+- ~300 human miRNAs (after filtering and merging)
+- Label: `mean_context_score`
+- Features:
+  - `length`
+  - `GC_content`
+  - `seed_GC_content`
+  - `seed_group_size`
+
+---
+
+### Models Tested
+
+#### 1. Seed-Only Linear Regression
+
+- Predictor: `seed_GC_content`
+- 5-fold cross-validation
+
+**Results**
+- CV mean R² ≈ 0.16  
+- CV std ≈ 0.37  
+- Test r2 = 0.32
+- Highly unstable (one strongly negative fold)
+
+**Conclusion**  
+Seed GC contains signal but is insufficient alone and variance-sensitive.
+
+---
+
+#### 2. Full OLS (ordinary least squares) Linear Regression
+
+- All intrinsic features included
+- 5-fold CV + 80/20 train/test split
+
+**Results**
+- CV mean R² ≈ 0.24  
+- CV std ≈ 0.28  
+- Test R² ≈ 0.41  
+
+**Conclusion**  
+Additional features improve explanatory power, but performance remains unstable across folds.
+
+---
+
+#### 3. Ridge Regression (Regularized Model)
+
+- Features standardized
+- Alpha tuned via GridSearchCV
+- Evaluation using Repeated 5×10 Cross-Validation
+
+Best alpha ≈ 11
+
+**Results**
+- Repeated CV mean R² ≈ 0.38  
+- CV std ≈ 0.10  
+- Test R² ≈ 0.41  
+
+**Conclusion**
+Regularization significantly improves stability.  
+Repeated cross-validation shows that intrinsic miRNA features explain ~35–40% of variance in predicted repression strength.
+
+
+---
+
+### Key Observations
+
+- Intrinsic miRNA features explain ~35–40% of variance in mean repression score (based on repeated cross-validation).
+- Single 5-fold CV was unstable; repeated 5×10 CV provided a more reliable performance estimate.
+- Regularization (Ridge) reduced variance and improved generalization stability.
+- Seed GC content contributes meaningful signal but is insufficient alone.
+- Model performance is moderate, indicating real but incomplete biological signal in intrinsic features.
+
+---
+
+### Limitations
+
+- Aggregation to miRNA-level reduces sample size (~300 observations).
+- Interaction-level features (site type, transcript context) were not modeled.
+- TargetScan context++ scores are computational predictions, not experimental measurements.
+- Intrinsic sequence features alone likely capture only part of repression biology.
+- Even with repeated CV, moderate variance remains due to limited dataset size.
+
+
+---
+
+### Week 4 Outcome
+
+A stable regression baseline is established.
+
+**Next (Week 5):**
+- Alternative ML framing (classification)
+- Repeated cross-validation
+- Additional biologically meaningful features
+
+
+
