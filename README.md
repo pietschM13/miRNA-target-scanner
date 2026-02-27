@@ -269,4 +269,102 @@ A stable regression baseline is established.
 - Additional biologically meaningful features
 
 
+## Week 5 – Linear Model Stability and Biological Interpretation
 
+### Objective
+To understand linear model behavior under multicollinearity, apply Ridge regularization, and interpret model coefficients in a biological context.
+
+---
+
+### Model Comparison
+
+Initial Ordinary Least Squares (OLS) regression showed high variability across folds:
+
+- **OLS (5-fold CV)**  
+  R² ≈ 0.24 ± 0.28  
+
+This instability suggested sensitivity to fold composition and potential variance inflation.
+
+Applying Ridge regularization improved robustness:
+
+- **Ridge (5-fold CV)**  
+  R² ≈ 0.30 ± 0.26  
+
+Using repeated cross-validation for more stable performance estimation:
+
+- **Ridge (Repeated 5×10 CV)**  
+  R² ≈ 0.38 ± 0.10  
+
+The reduced standard deviation indicates improved stability in performance estimation, while the increase in mean R² suggests better generalization.
+
+---
+
+### Interpretation of Standardized Coefficients
+
+Model trained using standardized features:
+
+- Length  
+- GC content  
+- Seed GC content  
+- Seed group size  
+
+Estimated coefficients:
+
+| Feature            | Coefficient |
+|--------------------|------------|
+| Length             | -0.0069    |
+| GC_content         |  0.0124    |
+| Seed_GC_content    | -0.0496    |
+| Seed_group_size    | -0.0098    |
+
+**Key observation:**  
+Seed GC content is the dominant predictor.
+
+Because the response variable (context++ score) becomes more negative with stronger repression:
+
+- Negative coefficient → higher feature value → stronger repression  
+- Seed GC content shows the largest magnitude effect  
+
+---
+
+### Biological Interpretation
+
+The dominance of seed GC content aligns with established miRNA biology:
+
+- The seed region drives target recognition.
+- GC-rich seeds promote stronger base pairing.
+- Increased thermodynamic stability enhances repression efficiency.
+
+Other features (global GC content, length, seed group size) contribute weakly in comparison.
+
+---
+
+### Model Insight
+
+The model explains approximately **38% of the variance** in repression strength.
+
+This suggests:
+
+- Primary sequence features contribute meaningfully.
+- However, the majority of variability (~62%) likely arises from:
+  - mRNA site context  
+  - Structural accessibility  
+  - Conservation  
+  - Cellular factors  
+  - TargetScan modeling uncertainty  
+  - Noise
+
+---
+
+### Statistical Reflection
+
+Ridge regularization reduced coefficient instability caused by correlated predictors and small sample size.  
+Repeated cross-validation improved reliability of performance estimation.
+
+This week clarified:
+
+- The bias–variance tradeoff in practice  
+- The effect of multicollinearity on coefficient stability  
+- The difference between model instability and performance estimation noise  
+
+The linear modeling phase establishes a biologically interpretable and statistically grounded baseline for further modeling.
