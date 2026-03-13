@@ -1,11 +1,66 @@
 # miRNA-target-scanner
 A simple machine learning project for predicting miRNA binding sites in human 3′UTRs.
 
-## Project Overview
+## Project Overview (start)
 This project is a computational biology / bioinformatics learning project focused on human miRNAs and their sequence-derived properties. The long-term goal is to explore how biologically meaningful features (e.g. sequence composition, seed properties) relate to known miRNA–target interactions, while building practical skills in Python, data wrangling, statistics, and machine learning.
 
-The project is intentionally structured as a reproducible, stepwise pipeline, with clear checkpoints and documentation.
+# miRNA repression modelling (end)
 
+This project explores whether simple sequence-derived features of miRNAs
+can explain or predict repression strength using machine learning.
+
+Using publicly available datasets (miRBase and TargetScan), a small feature
+set was constructed and evaluated using regression and classification models.
+
+Limitations
+
+• Only sequence-derived features were used
+• TargetScan scores were aggregated to miRNA level
+• Dataset size (~300 miRNAs) limits model complexity
+• mRNA context features were not included
+
+Goals:
+- Practice machine learning workflows in Python
+- Understand statistical behavior of linear models
+- Connect model outputs to biological interpretation
+
+Key findings
+
+• Ridge regression explained ~38% of variance in repression scores
+• Seed GC content was the strongest predictor
+• Logistic regression achieved ROC-AUC ≈ 0.8 for strong vs weak repression
+• Model evaluation highlighted the importance of threshold choice and class imbalance
+
+Data sources
+↓
+Sequence feature extraction
+↓
+Feature engineering
+↓
+Modeling
+   - Linear regression
+   - Ridge regression
+   - Logistic regression
+↓
+Model evaluation
+   - R²
+   - cross validation
+   - ROC–AUC
+↓
+Biological interpretation
+
+Lessons learned
+
+• Cross-validation is essential for small biological datasets
+• Regularization stabilizes coefficients when predictors are correlated
+• AUC measures ranking performance rather than classification accuracy
+• Threshold selection changes biological interpretation of model output
+
+Future directions
+
+• Modeling individual miRNA–target interactions
+• Incorporating structural accessibility features
+• Exploring nonlinear models such as tree ensembles
 ---
 
 ## Data Source
