@@ -2,7 +2,7 @@
 A simple machine learning project for predicting miRNA binding sites in human 3′UTRs.
 
 ## Project Overview (start)
-This project is a computational biology / bioinformatics learning project focused on human miRNAs and their sequence-derived properties. The long-term goal is to explore how biologically meaningful features (e.g. sequence composition, seed properties) relate to known miRNA–target interactions, while building practical skills in Python, data wrangling, statistics, and machine learning.
+This project is a computational biology / bioinformatics learning project focused on human miRNAs and their sequence-derived properties. The long-term goal is to explore how biologically meaningful features (e.g. sequence composition, seed properties) relate to known miRNA–target interactions, while building practical skills in Python, data wrangling, statistics, and machine learning. While developed for miRNA analysis, the project demonstrates sequence-based target identification approaches that are broadly applicable to biological sequence analysis, including assay design for detection purposes.
 
 # miRNA repression modelling (end)
 
